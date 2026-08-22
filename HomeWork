@@ -1,0 +1,334 @@
+************Apex Homework – Week 3, Day 1: Control Flow (if/else)**********************
+
+
+--Write an Apex program that:
+
+• Takes an integer variable `num`
+
+• Checks whether the number is even or odd
+
+• Prints "Even number" or "Odd number" in the debug log:
+
+answer:-
+integer num=8;
+if(math.mod(num,2)==0){
+system.debug**('Even number');**
+}
+else{
+system.debug('odd number');
+}
+
+-------------------------------------------------------
+--Write an Apex program that:
+
+• Takes a variable `marks` (integer)
+
+• Evaluates the grade as follows: - 90 and above → A Grade - 75 to 89 → B Grade - 50 to 74 → C Grade - Below 50 → Fail
+
+• Prints the grade in the debug log
+
+	
+ans:
+Decimal marks = 85.13;
+if(marks>=90)
+{
+system.debug('A grade');
+}
+
+else if(marks>=75 && marks<90){
+system.debug('B grade');
+}
+
+else if(marks>=50 && marks<75){
+system.debug('C grade');
+}
+else
+{
+system.debug('you are fail');
+
+}
+---------------------------------------------------------
+
+---Task 3: Age Category Checker
+
+Write an Apex program that:
+
+• Takes an integer variable `age`
+
+• Categorizes the person based on age: - Less than 18 → "You are a minor" - Between 18 and 60 (inclusive) → "You are an adult" - Greater than 60 → "You are a senior citizen"
+
+• Displays the result using System.debug()
+answer:-
+
+Integer age = 25;
+
+if(age<18)
+{
+system.debug('You are a minor');
+}
+
+else if(age>=18 && age<=60){
+system.debug('You are an adult');
+}
+
+else
+{
+system.debug('You are a senior citizen');
+
+}
+
+---------------------------------------------------------------------
+----Task 4--Write an Apex program that:
+
+• Takes two string variables: `username` and `password`
+
+• If `username` is "admin" and `password` is "1234", print "Login successful"
+
+• Otherwise, print "Invalid username or password"
+
+answer:-
+
+string username='admin';
+string password='1234';
+
+if(username='admin'  && password='1234'){
+system.deubg('Login successful');
+}
+else{
+system.debug('Invalid username or password');
+
+}
+
+
+
+********************Apex Homework – Week 3, Day 3: Loops (for-each loop)******************************
+■ Write all code in the Execute Anonymous Window.■
+
+------Print Names from a List
+
+Write an Apex program that:
+
+• Creates a List of Strings with at least 5 names.
+
+• Uses a for-each loop to print each name in the debug log
+
+Answer:-
+
+List<string>  strList=new list<string>{'arti','prashant','avinash','sonali','sumit'};
+
+for(string str :strList){
+System.debug(str);
+}
+
+-----------------------------------------------------------------------
+
+Task 2: Double the Numbers
+Write an Apex program that:
+• Creates a List of Integers with values like 2, 4, 6, 8.
+• Uses a for-each loop to print each number multiplied by 2.
+
+Answer:-
+
+list<integer> intList=new list<integer>{2, 4, 6, 8};
+
+for(integer int:intList){
+system.debug(int*2);
+}
+
+
+------------------------------------------------------------------------
+Task 3: Print Account Names
+Write an Apex program that:
+• Queries 5 Account records from Salesforce (SELECT Name FROM Account LIMIT 5).
+• Uses a for-each loop to print each Account name in the debug log.
+    
+Answer:-
+
+list<account> acclist=[SELECT Name FROM Account LIMIT 5];
+
+for(account acc:acclist){
+system.debug(acc.name);
+}
+------------------------------------------------------------------------------------
+
+
+■ Bonus Task (Optional): Count Characters in Names
+Write an Apex program that:
+• Creates a List of Strings with 4–5 names.
+• Uses a for-each loop to print each name along with its character count. Example: John
+® 4 characters.
+
+
+■ Instructions:
+• Write and test each task in the Execute Anonymous Window.
+• Run one task at a time and check the Debug Logs for output.
+• Try with different data to practice more.
+
+Answer:-
+
+
+list<string> strList=new list<string>{'john','Samay','Amitabh','ramcharan'};
+
+for(string str:strList){
+system.debug(str+'-'+str.length()+'characters');
+}
+
+
+///note: string ki length calculation sathi :str.length()....it calaculates space as well .
+---------------------------------------------------------------------------------------------
+
+***********************Apex Homework – Week 3, Day 4: for-each & for loop with if-else******************************
+■ Write all code in the Execute Anonymous Window.■
+■ Task 1: Positive & Negative Numbers (for loop + if-else)
+Write an Apex program that:
+• Creates a List of Integers with values like -5, 10, -3, 7, 0.
+• Uses a for loop and if-else to check each number:
+- Positive ® print "Positive"
+- Negative ® print "Negative"
+- Zero ® print "Zero"
+
+Answer:-
+
+list<integer> intList =new list<integer>{-5, 10, -3, 7, 0};
+
+
+for(integer i:intList){
+
+
+
+if(i>0)
+{
+system.debug('Positive');
+}
+
+else if(i<0){
+system.debug('negative');
+}
+
+else
+{
+system.debug('it is ZERO');
+
+}
+
+
+
+}
+
+--------------------------------------------------------------
+■ Task 2: Filter Names Starting with 'A' (for-each loop + if)
+Write an Apex program that:
+• Creates a List of Strings with names: ["Amit", "John", "Anita", "Sara", "Alex"].
+• Uses a for-each loop with if condition to print only the names starting with 'A'
+
+Answer:-
+
+list<string> strList=new list<string>{'Amit','John','Anita','Sara','Alex'};
+
+strList=[select name from where name like 'A%'];
+
+for(string str:strList){
+
+if(str.startsWith('A'){   /// note: str.startsWith('A'):will return true ,when name starts with A.
+System.debug(str);
+}
+
+}
+----------------------------------------------------
+
+Task 3: Even & Odd Numbers (for loop + if-else)
+Write an Apex program that:
+• Creates a List of Integers with values from 1 to 10.
+• Uses a for loop with if-else to check each number:
+- Even ® print "Even: <number>"
+- Odd ® print "Odd: <number>"
+Answer:-
+
+list<integer> intList=new list<integer>{1,2,3,4,5,6,7,8,9,10};
+
+for(integer i:intList){
+
+if(math.mod(i,2)==0){
+system.debug('Even: '+i);
+}
+else
+system.debug('Odd: '+i);
+
+
+}
+
+----------------------------------------------------------------------
+
+
+■ Task 4: Uppercase Names (for-each loop + if-else)
+Write an Apex program that:
+• Creates a List of Strings with names.
+• Uses a for-each loop with if-else to check:
+- If name length > 4 ® print in UPPERCASE
+- Otherwise ® print in lowercase
+
+Answer:-
+
+list<string> strList=new list<string>{'Amit','John','Anita','Sara','Alex'};
+
+
+for(string str: strList){
+
+if(str.lenght()>4){
+
+system.debug(str.toUpperCase());///  toUpperCase()-->used to convert into Upper Case
+
+}
+else{
+system.debug(str.toLowerCase());//toLowerCase()-->used to convert into lower case
+
+}
+
+}
+
+----------------------------------------------------------------
+
+
+■ Bonus Task (Optional): Account Industry Filter
+Write an Apex program that:
+• Queries 5 Accounts from Salesforce (SELECT Name, Industry FROM Account LIMIT 5).
+• Uses a for-each loop with if condition to print:
+- "IT Account: <Name>" if Industry = IT
+- "Other Account: <Name>" otherwise
+■ Instructions:
+• Write and test each task in the Execute Anonymous Window.
+• Run one task at a time and check the Debug Logs for output.
+• Use different data to test how your code behaves.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
