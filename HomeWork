@@ -301,6 +301,142 @@ Write an Apex program that:
 • Use different data to test how your code behaves.
 
 
+Answer:-
+
+list<account> acclist=[SELECT Name, Industry FROM Account LIMIT 5];
+
+for(account acc:acclist){
+
+if(acc.industry=='IT'){
+System.debug('IT Account:'+acc.name);
+
+}
+else{
+System.debug('Other Account:'+acc.name);
+}
+
+}
+
+-------------------------------------------------------------------------------------
+*****************Apex Homework – Week 3, Day 5: Using Lists with SOQL Queries********************
+L□]Write all code in the Execute Anonymous Window.
+🔹 Task 1: Query Account Names
+Write an Apex program that:
+• Queries the first 5 Accounts (SELECT Id, Name FROM Account LIMIT 5).
+• Stores them in a List<Account>.
+• Uses a for-each loop to print all Account names.
+Answer:
+
+list<account> acclist=[SELECT Name,Id FROM Account LIMIT 5];
+
+for(account acc:acclist){
+
+
+System.debug('Account Name is :'+acc.name);
+
+
+}
+
+
+
+
+-----------------------------------------------------
+🔹 Task 2: Collect Contact Emails
+Write an Apex program that:
+• Queries all Contacts where LastName = 'Smith'.
+• Stores them in a List<Contact>.
+• Uses a for-each loop to print all email addresses.
+
+answer:-
+
+list<contact> conList=[select id,name,Email,lastName from contact where lastName='Smith'];
+
+For(contact con: conlist){
+system.debug(con.email);
+}
+
+
+
+
+--------------------------------------------------------
+🔹 Task 3: Opportunities Greater Than 50,000
+Write an Apex program that:
+• Queries Opportunities with Amount > 50000.
+• Stores them in a List<Opportunity>.
+• Prints the Name and Amount for each Opportunity.
+
+answer:-
+
+list<opportunity> oppList=[select name,stageName,amount from opportunity where  Amount > 50000 ];
+For(opportunity  oop: opplist){
+system.debug('oop.name-->'+oop.name+'   '+'opp.amount--->'+opp.amount);
+}
+
+
+
+
+-----------------------------------------------------------
+🔹 Task 4: Filter Accounts with Industry = IT
+Write an Apex program that:
+• Queries Accounts where Industry = 'IT'.
+• Stores them in a List<Account>.
+• Prints "IT Account: <Name>" for each.
+answer:---
+list<account> acclist=[select name,industry from account where industry='IT'];
+
+for(account acc:acclist){
+System.debug('IT Account :'+acc.name);
+
+}
+
+
+
+---------------------------------------------------------------
+💡 Bonus Task (Optional): Contacts of Queried Accounts
+Write an Apex program that:
+• Queries 3 Accounts with their Ids.
+• Uses those Ids in a second query to fetch related Contacts (WHERE AccountId IN
+:accountList).
+• Prints Account Name and Contact Names together.
+
+
+// Step 1: Query 3 Accounts
+List<Account> accountList = [
+    SELECT Id, Name
+    FROM Account
+    LIMIT 3
+];
+// Step 2: Collect Account Ids
+Set<Id> accountIds = new Set<Id>();
+
+for (Account acc : accountList) {
+    accountIds.add(acc.Id);
+}
+
+// Step 3: Query Contacts using Account Ids
+List<Contact> contactList = [
+    SELECT Id, FirstName, LastName, AccountId
+    FROM Contact
+    WHERE AccountId IN :accountIds     //con1,con2 ,con3
+];
+
+// Step 4: Print Account Name and related Contact Names
+for (Account acc : accountList) {
+
+    System.debug('Account: ' + acc.Name);
+
+    for (Contact con : contactList) {
+
+        if (con.AccountId == acc.Id) {
+            System.debug(
+                '   Contact: ' +
+                con.FirstName + ' ' +
+                con.LastName
+            );
+        }
+    }
+}
+
 
 
 
