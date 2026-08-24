@@ -1,0 +1,128 @@
+*************Apex Homework – Week 4, Day 1: Validation Rules***************************************
+
+validation rule : Validation Rule: A validation rule is used to check whether the data entered by a user is valid before saving the record.
+
+If the condition is true, Salesforce shows an error and does not save the record.
+
+Example:
+
+Account Phone must not be blank.
+
+----------------------------------------------------------------------------------------
+
+
+ Create all Validation Rules directly in Salesforce Setup (Object Manager → Validation
+Rules).
+🔹 Task 1: Account Phone Number Required
+• Create a validation rule on Account that ensures:
+ - Phone field cannot be blank.
+ - Show error message: "Phone number is required."
+
+error kadhi aala pahije:    phone is blank --->error
+
+steps:   setup--->obj manager --->select account object-->left side select validation rule --->and insert field,operator,function based on the requirment--->enter error message--->save
+
+answer:  isBlank(phone)
+
+-------------------------------------------------------------------------------------------
+
+🔹 Task 2: Opportunity Close Date in Future
+• Create a validation rule on Opportunity that ensures:
+ - CloseDate cannot be less than TODAY.
+ - Show error message: "Close Date must be today or in the future."
+
+ 
+answer:  closed date<today
+
+
+-----------------------------------------------------------------------------------
+🔹 Task 3: Contact Email Format
+• Create a validation rule on Contact that ensures:
+ - Email field must contain “@” and “.”
+ - Show error message: "Enter a valid email address."
+
+answer:  not( contains (Email,'@')) && not( contains (Email,'.'))
+ 
+contains method returns true when email contains @.
+not ---->convert true into false and vice versa.
+----------------------------------------------------------------------------------
+
+🔹 Task 4: Discount Not More Than 30%
+• Create a validation rule on Opportunity that ensures:
+ - Custom field Discount__c cannot be greater than 30.
+ - Show error message: "Discount cannot be more than 30%."
+
+answer:-  discount__c > 0.30
+
+note:  0.30 means 30 %   (whenever data type is percent ).
+---------------------------------------------------------------------------------
+
+
+💡 Bonus Task (Optional): Age Must Be 18+
+• Create a validation rule on Lead that ensures:
+ - Custom field Age__c must be greater than or equal to 18.
+ - Show error message: "Age must be 18 or above."
+📌Instructions:
+• Go to Setup → Object Manager → [Object] → Validation Rules.
+• Create each rule one by one and test with different values.
+• Take screenshots of error messages as proof of completion.
+
+
+answer:-   age<18   
+
+
+************Apex Homework – Week 4, Day 2: Many-to-Many Relationship (Junction Object)****************************
+ All tasks should be done in Salesforce Setup (Object Manager → Schema Builder →
+Relationships).
+🔹 Task 1: Create a Junction Object
+• Create a custom object called StudentCourse__c (Junction Object).
+• Add two Master-Detail relationships:
+ - One with Student__c
+ - One with Course__c
+• Ensure “Allow Reports” is checked.
+
+--answer---->      created StudentCourse__c (Junction Object) with 2 master detail lookup field .one has parent 'student' object and other has parent 'course'.
+ note: the object having 2 master details fields is junction object.
+note:Junction object is use to apply many to many relationship. for example one student can apply to many courses and one course can have many students.
+ 
+
+
+🔹 Task 2: Add Records
+• Add sample records in:
+ - Student__c (at least 3 students)
+ - Course__c (at least 3 courses)
+• Use the StudentCourse__c object to assign:
+ - Multiple courses to a single student
+ - Multiple students to a single
+
+--->done
+-----------------------------------------------------------------------------------------
+Task 3: Create Related List
+• On the Student__c page layout, add Courses (via StudentCourse__c) as a related list.
+• On the Course__c page layout, add Students (via StudentCourse__c) as a related list.
+
+steps:---->go to setup-->obj manager-->select student object--->go to page layout--->drag the 'StudentCourse__c' component to related list
+similary for course object.
+
+on page layout page:  two save options are there a:Save() and b:quick save()
+Save: Save changes and exit the page layout.
+Quick Save: Save changes and stay on the same page layout.
+
+-----------------------------------------------------------------------------------------------
+🔹 Task 4: Report on Junction Data
+• Create a Custom Report Type using:
+ - Primary Object → Student__c
+ - Related Object → StudentCourse__c
+ - With related → Course__c
+• Run a report to show:
+ - Student Name
+ - Course Name
+---------------------------------------------------------------------------------------
+💡 Bonus Task (Optional): Validation Rule on Junction
+• On StudentCourse__c, create a Validation Rule that prevents assigning the same student to
+the same course more than once.
+• Error message: “This Student is already enrolled in this Course.
+
+
+
+
