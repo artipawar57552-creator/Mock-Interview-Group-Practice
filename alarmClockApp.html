@@ -1,0 +1,32 @@
+<template>
+   <div class="alarm-card">
+        <h1>Alarm Clock</h1>
+         <img src={clockImage} alt="clock image" height="200px" width="200px"></img>
+        <h2>{currentTime} </h2>
+
+        <!--Below is to show the hors min and sec in one linear grid-->
+        <div class="slds-grid slds-gutters clock-container">
+            <div class="slds-col time-element">
+               <c-clock-drop-down label="Hours" options={hours} unique-id="select-hour" onoptionhandler={optionhandler}>
+               </c-clock-drop-down>
+            </div>
+
+            <div class="slds-col time-element">
+                 <c-clock-drop-down label="Minutes" options={minutes} unique-id="select-minute" onoptionhandler={optionhandler}>
+
+                 </c-clock-drop-down>
+            </div>
+            <div class="slds-col time-element">
+                <c-clock-drop-down label="AM-PM" options={meridians} unique-id="AM-PM" onoptionhandler={optionhandler}>
+
+                </c-clock-drop-down>  
+            </div>
+        </div>
+        <!--now we need a set alarm button-->
+        <div class="button-container">
+            <template if:false={isAlarmSet}> <lightning-button  label="Set Alarm" stretch="true" variant="neutral" disabled={isFieldNotSelected} onclick={setAlarmHandler} ></lightning-button></template>
+             <template if:true={isAlarmSet}> <lightning-button  label="Clear Alarm" stretch="true" variant="neutral" onclick={clearAlarmHandler} ></lightning-button></template>
+        </div>
+        
+    </div> 
+</template>

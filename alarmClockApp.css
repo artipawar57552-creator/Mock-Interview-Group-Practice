@@ -1,0 +1,83 @@
+/*-- host is used to create the variable name and we can use it inside this whole css file anywhere --->
+---so if we want to change some property we can just change the variable value   */
+:host(){
+    --dark-blue:#243356;
+    --white:#ffffff;
+    --yellow:#ffcd0a;
+    --light-blue:#00d9fe;
+    --size-14: 14px;
+    --size-16:16px;
+}
+img {
+    display: block;
+    margin: 20px auto;
+}
+.alarm-card{
+    
+    max-width: 440px;
+    width: 100%;
+    padding: 30px;
+    background: var(--dark-blue);
+    color: var(--white);
+    margin: 24px auto;
+}
+h1{
+    
+    color: var(--yellow);
+    font-size: 40px;
+    font-weight: 550;
+    text-align: center;
+}
+h2{
+    
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--light-blue);
+    text-align: center;
+    margin: 30px auto;
+}
+
+.clock-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    text-align: center;
+}
+.time-element {
+    margin: 0 20px; /*Space between elements*/
+}
+
+lightning-button{
+    width:100%;
+    /*display:block;*/
+    border:1px solid #f5b400;
+    background-color:#f5b400;
+    border-radius:4px;
+    font-size:20px;
+    color:var(--dark-blue);
+    margin-top:20px;
+
+    /*background-color: rgb(245, 180, 0);
+    color: darkblue;
+    padding: 0px;
+    border: 0px;*/
+
+    
+
+}
+.button-container{
+    display:flex;
+    justify-content:centre;
+    
+     margin-top:20px auto ;
+}
+
+
+.custom-label{
+    color:var(--light-blue);
+        font-size: 20px;
+}
+.custom-select{
+        font-size: 20px;
+    width: auto;
+}
