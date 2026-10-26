@@ -1,0 +1,100 @@
+Roll Up summary:--
+Roll-Up Summary Field in Salesforce is a field used to calculate values from related child records on a parent record.
+
+Simple example
+
+Account → Contacts
+
+Suppose an Account has 5 Contacts.
+
+A Roll-Up Summary on Account can calculate:
+
+COUNT → Number of Contacts
+SUM → Total of a number field
+MIN → Minimum value
+MAX → Maximum value
+
+Important points:
+Created on the Master side of a Master-Detail relationship.
+Works only with Master-Detail relationships traditionally.
+Child records are automatically aggregated.
+
+
+
+example:  client --->client address
+
+one to Many Relationship:
+1:lookup -->
+2:master detail-->
+
+how many lookup can be created per object?--->40
+
+For Salesforce, the standard limit is:
+
+40 total relationship fields per object
+This includes Lookup + Master-Detail
+Maximum 2 Master-Detail relationships
+Therefore, if you use 2 Master-Detail relationships, you can have up to 38 Lookup relationships.
+
+
+
+Many to many Relationship:
+“Salesforce doesn't provide a direct many-to-many relationship. We implement it using a junction object with two Master-Detail relationships, one to each parent object.”
+ we need third object (junction object) to create master detail relationship. Junction object will have two master detail fields.
+
+example: client----->   client citizenship  <------citizenship
+
+
+Many-to-Many relationship in Salesforce is created using a Junction Object.
+
+Example:
+
+Student ↔ Course
+
+One Student can enroll in many Courses.
+One Course can have many Students.
+How to create it
+
+Create a Junction Object, e.g. Enrollment__c.
+
+Then create two Master-Detail relationships:
+
+Student__c ← Master-Detail → Enrollment__c ← Master-Detail → Course__c
+
+So:
+
+Student → Enrollment ← Course
+
+The Enrollment object acts as the junction object connecting both sides.
+
+
+
+soql for example:
+Task
+
+You have:
+
+Account--->    contact(accountId)
+
+Write a SOQL query to find:
+
+Accounts that have more than 2 Contacts.
+
+---->select accountId,account.name,count(id) 
+         from contact 
+         group by accountId,account.name
+         having count(id)>2
+
+
+
+basic order structure for soql:
+select 
+from
+where
+group by 
+having
+order by
+limit
+offset
+
+

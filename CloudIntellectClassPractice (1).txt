@@ -1,0 +1,681 @@
+public class CloudIntellectClassPractice 
+{
+    //6 october :task 1:print Table of given number 
+    public list<integer> printTable(integer num){
+        list<integer> table=new list<integer>();
+        for(integer i=1;i<=10;i++){
+            system.debug(i*num);
+            table.add(i*num);   
+        }
+        return table;
+            
+    
+    }
+
+
+
+    //print first n natural numbers(n is input parameter)[1,2,3,4,5,6......infinity---counting number]
+public void printNaturalNums(integer num1){
+    for(integer i=1;i<=num1;i++){
+        system.debug(i);
+    }
+    
+}
+    
+    //take number as input parameter and check whteher it is positive or negative
+    public void checkNumbers(integer nums){
+        if(nums<0){
+            system.debug(nums +'is negative number');
+        }
+        else if(nums>0)
+        { system.debug(nums +'is positive number');
+               }
+        else  {system.debug('It is zero');}
+             
+    }
+    
+    //write a method that take two string as input concate two string and print that string together
+    public void joinTwoString(String str1,String str2){
+        system.debug(str1+str2);
+    }
+    
+    //even or odd--home work
+    public static void oddOrEven(integer num){
+        if(math.mod(num,2)==0){
+            system.debug(num+'it is even');
+        }
+        else   system.debug(num+'it is  odd');
+                
+        
+    }
+    
+    ////multiple of 5 or not 
+    public void MultipleOfFive(Integer num){
+        if(math.mod(num,5)==0){
+            system.debug('it is multiple of 5');
+        }
+        else   system.debug('it is  not multiple of 5');
+        
+    }
+    
+    
+    //day:--7 oct--wednesday: task 1: account insertion method 
+    public void insertAccountmethod(){
+        account acc=new account();
+        acc.name='Delloite';
+        acc.phone='9999999';
+         insert acc;
+        
+    }
+    //task 2:write am method that queries 10 account record and print the account name
+    public void queryAccountRecord(){
+        list<account> acclist=[select name,phone from account limit 10];
+        for(account acc:acclist){
+            system.debug(acc.name);
+            
+        }
+    }
+        
+      //task 3: write a method takes integer as parameter ,if num=1 then print mon,num 2=tuesday 
+        public void printDays(integer day){
+            
+            if(day==5)
+            {system.debug('Friday');}
+            else if(day==1)
+            {system.debug('Monday');}
+            else if(day==2)
+            {system.debug('Tuesday');}
+            else if(day==3)
+            {system.debug('Wednesday');}
+            else if(day==4)
+            {system.debug('Thursday');}
+            else {system.debug('Enter valid number');}
+            
+            
+        }
+        //task 4:write down a method that queries 10 account record and print the account Id of each account 
+        public void printAccRecords(){
+            list<account> acclist=[select id,name from account limit 10];
+            for(account acc:acclist){
+                system.debug(acc.id);
+                
+            }
+        }
+    	//task5:switch case example
+    	public void printDay(Integer Num) {
+    switch on Num {
+        when 1 {
+            System.debug('Monday');
+        }
+        when 2 {
+            System.debug('Tuesday');
+        }
+        when 3 {
+            System.debug('Wednesday');
+        }
+        when 4 {
+            System.debug('Thursday');
+        }
+        when 5 {
+            System.debug('Friday');
+        }
+        when 6 {
+            System.debug('Saturday');
+        }
+        when 7 {
+            System.debug('Sunday');
+        }
+        when else {
+            System.debug('Invalid day');
+        }
+    }
+}
+                               
+                                
+        //8th october:task 1:query 10 contact record and printhe contact full name
+    public void printFullNameOfContact(){
+        
+          list<contact> conlist=[select id,name,FirstName,lastName from contact limit 10];
+        for(contact con:conlist){
+            system.debug(con.Firstname+' '+con.lastName);
+        }
+    }
+    
+    //task 2:query 10 contact record and create a set of associated accountids from it ,returv that set
+    public set<id> printFullSetOfContact(){
+        
+          list<contact> conlist=[select id,name,FirstName,lastName from contact limit 10];
+        set<id> accountIds=new set<id>();
+        for(contact con:conlist){
+            accountIds.add(con.accountId);
+        }
+        return accountIds;
+    }
+    
+   // query 10 opportunit record(status=open or new )and create set of accountid from it and return that set\
+    public set<id> returnOppSet(){
+        set<id> AccIds=new set<id>();
+        list<opportunity> oppList=[select id,name,stageName,accountId from opportunity  where stagename ='new' or stageName='open' limit 10];
+        for(opportunity opp:oppList)
+        {
+            accIds.add(opp.accountId);
+        }
+        return accIds;
+        
+    }
+ 
+   // 10 accounts store the account names inoto the list and returns that list
+    public list<string> returnNameList(){
+        list<string> accnames=new list<string>();
+        list<account> acclist= [select id,name from account limit 10];
+        for(account acc:acclist){
+            accnames.add(acc.name);
+            
+        }
+        return accnames;
+        
+    }
+   // query 10 contact record ,cretae a set of accountid,use that set to query associated records
+    public list<account>  M1(){
+        list<contact> conlist=[select id,accountId,name  from contact limit 10];
+        set<id> accIds=new set<id>();
+        for(contact con:conlist){
+            accIds.add(con.accountId);
+        }
+        list<account> relatedAccList=[select id,name from account where id in:accIds];
+        
+        return relatedAccList;
+    }
+    //query 10 opportuniy records and create a set of accountID and return those accounts
+    public list<account> m2(){
+        //query 10 opportunity records
+        list<opportunity> oppList=[select id,accountId,name from opportunity limit 10];
+        //create a set of accountIds and add those accountis of queried list into it
+        set<id> accountIds=new set<id>();
+        for(opportunity opp:opplist){
+            accountIds.add(opp.accountId);            
+        }
+        
+        //create related accountList by using set of those accountId as filter
+        list<account> acclist=[select id,name from account where id in:accountIds];
+        
+        //return account list
+        return acclist;
+        
+    }
+    //write down method that queries 10 opportunity record create set of account id from it ,use set of Id to query list of opportunity ,return this list of opportuinity
+public List<Opportunity> getOpportunities() {
+
+    // Step 1: Query 10 Opportunity records
+    List<Opportunity> oppList = [
+        SELECT Id, Name, AccountId
+        FROM Opportunity
+        LIMIT 10
+    ];
+
+    // Step 2: Create a Set of Account IDs
+    Set<Id> accountIds = new Set<Id>();
+
+    for (Opportunity opp : oppList) {
+        if (opp.AccountId != null) {
+            accountIds.add(opp.AccountId);
+        }
+    }
+
+    // Step 3: Query Opportunities related to those Accounts
+    List<Opportunity> finalOppList = [
+        SELECT Id, Name, AccountId
+        FROM Opportunity
+        WHERE AccountId IN :accountIds
+    ];
+
+    // Step 4: Return the Opportunity list
+    return finalOppList;
+}
+
+//write down method that insert account record and return account id
+
+public Id createAccount() {
+
+    // Step 1: Create Account record
+    Account acc = new Account();
+    acc.Name = 'Test Account';
+
+    // Step 2: Insert Account
+    insert acc;
+
+    // Step 3: Return Account ID
+    return acc.Id;
+}
+
+//write down method , insert Account record,insert contact record and insert opportunity record ,association contact and opportunity with inserted account record
+
+public Id createAccountContactOpportunity() {
+
+    // Step 1: Insert Account
+    Account acc = new Account();
+    acc.Name = 'Test Account';
+    insert acc;
+
+    // Step 2: Insert Contact associated with Account
+    Contact con = new Contact();
+    con.LastName = 'Test Contact';
+    con.AccountId = acc.Id;
+    insert con;
+
+    // Step 3: Insert Opportunity associated with Account
+    Opportunity opp = new Opportunity();
+    opp.Name = 'Test Opportunity';
+    opp.AccountId = acc.Id;
+    opp.StageName = 'Prospecting';
+    opp.CloseDate = Date.today().addDays(30);
+    insert opp;
+
+    // Step 4: Return Account ID
+    return acc.Id;
+}
+   // quer 10 contact crete a set of accountids use the set  to fetch associ oppo,and print amount from it
+    public void m3(){
+        list<contact> conList=[select id,name from contact limit 10];
+        set<id> accountIds=new set<id>();
+        for(contact con:conlist){
+            accountIds.add(con.accountid);            
+        }
+        list<opportunity> opplist=[select id,name,amount,stageName from opportunity where accountid in:accountids];
+        for(opportunity opp:opplist){
+            system.debug(opp.amount);
+        }
+    }
+      //method that queries 10 opportunity record ,crete a set of accountIds from it ,
+      //use the set to query accosiatated account Record and return account Nmaes from it,
+      //create a list  account names
+        public list<string> m4(){
+            list<opportunity> opplist=[select id,name,stageName from opportunity limit 10];
+            set<id> accountIds=new set<id>();
+            for(opportunity opp:opplist){
+                accountIds.add(opp.AccountId);
+   
+            }
+            list<account> acclist=[select id,name from account where id in:accountIds];
+            list<string> accNameList=new list<string>();
+            for(account acc:accList){
+                accNameList.add(acc.name);
+            }
+            return accNameList;     
+        }
+    //write a method than does inner query on account and contact that prints the accountlist
+    public void m5(){
+        list<account> acclist=[select id,name ,(select id,name from contacts) from account limit 10];
+        system.debug(accList);
+        
+        
+    }
+       // query accountrecord with accointid and name ,create map accountid vs account name
+    public void m6(){
+        list<account> accList=[select id,name from account limit 10];
+        map<id,string> idNameMap=new map<id,string>();
+        for(account acc:acclist){
+            idNameMap.put(acc.id,acc.name);
+            
+        }
+        system.debug(idNameMap);
+        
+    }
+    //qury 10 contact record ,createa m map of accountid vs contact id ,and print all the keys and values of the map
+    public void m7(){
+      list<contact> conlist=[select id,accountId,Name from contact];
+        map<id,id> idVsIdMap=new map<id,id>();
+        for(contact con:conlist){
+            idVsIdMap.put(con.id,con.accountid);
+        }
+        system.debug('set of keys in map(contact id) :'+idVsIdMap.keySet());
+        system.debug('list of values in map (accoutids) :'+idVsIdMap.values());
+    }
+    //10 opppotrnity records fetch.... create map=accountid vs opportunity id ,and include only those opportunity :where amount >50000
+    public void m8(){
+        list<opportunity> opplist=[select id,accountid,name,amount from opportunity where amount>50000 limit 10];
+        map<id,id> idsMap=new Map<id,id>();
+        for(opportunity opp:opplist){
+            idsMap.put(opp.accountid,opp.id);
+            
+        }
+         system.debug('set of keys in map(accounnt id) :'+idsMap.keySet());
+        system.debug('list of values in map (opportunity id) :'+idsMap.values());
+        
+    }
+    //1p contact records ,map accountid vs number of contact associated with it ,without using  iner query
+    //way:1
+    public void m9(){
+        list<aggregateResult> conlist=[select accountid,count(id) total from contact group by accountid limit 10];
+        map<id,integer> map1=new map<id,integer>();
+   
+        for(aggregateResult ar:conlist){
+            map1.put((id)ar.get('accountid'),(integer)ar.get('total'));
+            
+        }
+        
+        system.debug('set of keys in map(accounnt id) :'+Map1.keySet());
+        system.debug('list of values in map (count total contacts) :'+Map1.values());
+        
+    }
+     //way:1
+    public void method9(){
+        list <contact> conlist=[select accountid,id,name from contact limit 10];
+       map<id,integer> map1=new map<id,integer>();
+        system.debug(conlist.size());
+        for(contact con :conlist){
+            if(map1.containskey(con.accountid)){
+                integer oldvalue=map1.get(con.accountid);
+                 map1.put(con.accountid,oldvalue+1);
+            }
+            else{
+                   map1.put(con.accountid,1);
+            }
+           
+        }
+          
+        system.debug('set of keys in map(accounnt id) :'+Map1.keySet());
+        system.debug('list of values in map (count total contacts) :'+Map1.values());
+        
+        
+    }
+    //way 2:
+    public void method09(){
+        list<account> acclist=[select id,name,(select id,name from contacts) from account limit 10];
+         map<id,integer> map1=new map<id,integer>();
+        for(account acc:acclist){
+            map1.put(acc.id,acc.contacts.size());
+            
+        }
+         system.debug('set of keys in map(accounnt id) :'+Map1.keySet());
+        system.debug('list of values in map (count total contacts) :'+Map1.values());
+        
+    }
+    //10 case records and craete map of contactId vs caseNumber
+    public void m10(){
+        list<case> caseList=[select id,contactId,caseNumber from case limit 10];
+        map<id,string> map2=new map<id,string>();
+        for(case c:caseList){
+            map2.put(c.contactId,c.caseNumber);
+            
+        }
+         system.debug('set of keys in map(contact id) :'+Map2.keySet());
+        system.debug('list of values in map (caseNumber) :'+Map2.values());
+        
+        
+       
+    }
+    //create a map of acountId vs no.of opportunities associated with it 
+    public void m11(){
+        list<account> accwithOppList=[select id,name ,(select id,name from opportunities) from account limit 10];
+        map<id,integer> accIdNoOfOpp=new map<id,integer>();
+        for(account acc:accWithOppList){
+			    accIdNoOfOpp.put(acc.id,acc.opportunities.size());        
+        }
+          system.debug('set of keys in map(contact id) :'+accIdNoOfOpp.keySet());
+        system.debug('list of values in map (caseNumber) :'+accIdNoOfOpp.values());
+        
+    }
+    ////***************doubt:output not mtaching :no of open cases always '0'
+    ///create a map contact id vs number of open cases with it ,do it both way :without inner qeuery and with inner query
+    public void method10(){
+        list<contact> opencaseWithContactList=[select id,(select id from cases where status !='closed') from contact];
+        map<id,integer> map1=new map<id,integer>();
+        for(contact con:opencaseWithContactList){
+            map1.put(con.id,con.cases.size());
+        }
+        system.debug(map1);
+        
+        
+        
+    }
+   
+    ///write down a method that queries 10 opportunity records and create a map of ,opportunity id vs opportnity amoount
+    public void m12(){
+        list<opportunity> oppList=[select id,name,amount from opportunity limit 10];
+        map<id,decimal> map2=new map<id,decimal>();
+        for(opportunity opp:opplist){
+            map2.put(opp.id,opp.amount);
+            
+        }
+         system.debug('set of keys in map(contact id) :'+map2.keySet());
+        system.debug('list of values in map (caseNumber) :'+map2.values());
+        
+    }
+    
+    ///write method that queries 10 contact record ,create a set of accountId from it ,use the set to inner query on account and opportunity
+    /// and create a map of accountid vs number of opportunity associated with it ,and return that map
+    public  map<id,integer> m13(){
+        list<contact> conlist=[select id,accountId,name from contact];
+        set<id> accountIds=new set<id>();
+        for(contact con:conlist){
+            accountIds.add(con.accountId);
+        }
+        list<account> accWithOppList=[select  id,name,(select id,stageName,name from opportunities)  from account where id in:accountIds];
+        map<id,integer> map1=new map<id,integer>();
+        for(account acc:accWithOppList){
+            map1.put(acc.id,acc.opportunities.size());
+        }
+        return map1;
+    }
+    //write a method 10  queries opporunity records ,crete a set of accountid from it ,use the set to inner query use account and contact .
+    //CReate a map of accountid and number of contact associated with it
+    public map<id,integer> m14(){
+        list<opportunity> oppList=[select id,name,stageName,accountId from opportunity limit 10];
+        set<id> accountIds =new set<id>();
+        for(opportunity opp:oppList){
+            accountIds.add(opp.accountId);
+        }
+        list<account> accWithConList=[select id,name, (select id,name from contacts)  from account where id in:accountIds];
+        map<id,integer> map1=new map<id,integer>();
+        for(account acc:accWithConList){
+            map1.put(acc.id,acc.contacts.size());
+            
+        }
+        return map1;
+        
+    }
+    //write down a method that queries 1o contact ,creat a set of contact id from it,use the set to inner query on contact and case
+    //.and creat a map of contactid vs nuber of case associated with it
+    public map<id,integer>  m15(){
+        list<contact> conlist=[select id,name from contact limit 10];
+        set<id> contactIds=new set<id>();
+        
+        for(contact con:conlist){
+            contactIds.add(con.Id);
+        }
+        
+        list<contact> contactWithCaseList=[select id,name ,(select id from cases) from contact where id in:contactIds];
+        map<id,integer> map1=new map<id,integer>();
+        for(contact con:contactWithCaseList){
+            map1.put(con.id,con.cases.size());
+        }
+        return map1;
+        
+    }
+    //21 october:
+    //q1:wrt method set <accountitd > as input ,use ut to query total number of contact associate with it ,and print accountId and contact
+    public void getTotalContacts(set<id> accIds){
+        list<aggregateResult> aggList=[select accountId,count(id) totalContacts from contact where accountid in: accids group by accountid ];
+        
+        for(aggregateResult agg:aggList){
+            system.debug(agg.get('totalContacts'));
+            system.debug(agg.get('accountId'));} 
+        
+        
+    }
+    //q2:write a method that takes input as a set of accountId and use it to do aggregate query on opportunity,to get total sum of ampount of opportunity
+    // associated to account,print accountId and total sum
+    public void getSumOfOpps(set<id> accids){
+        list<aggregateResult> aggList=[select accountId,sum(amount) TotalAmount from opportunity where accountId in:accids group by accountId];
+        for(aggregateResult agg:agglist){
+            system.debug(agg.get('accountid'));
+            system.debug(agg.get('totalAmount'));
+            
+        }
+    }
+      //q3:Write a method that queries 10 account record and create set of accountId from it,use set to query total number of opportunity associated 
+      //to account by aggregate query and print thal list
+        public void queryTotalopps(){
+            list<account> acclist=[select id from account limit 10];
+            set<id> accids=new set<id>();
+            for(account acc:acclist){
+                accids.add(acc.id);
+            }
+            list<aggregateResult> aggrList=[select accountid ,count(id) totalOpps from opportunity where accountid in:accIds group by accountid];
+            for(aggregateResult aggr:aggrList){
+                system.debug(aggr.get ('accountId'));
+                system.debug(aggr.get('totalOpps'));
+                
+            }
+        }
+      //q4:writ a method,that queries 10 account ,create set of acc ic ,use set to do aggregate query on contact ,print totalno of contact associate
+      //each account  
+       public void queryTotalContacts(){
+            list<account> acclist=[select id from account limit 10];
+            set<id> accids=new set<id>();
+            for(account acc:acclist){
+                accids.add(acc.id);
+            }
+            list<aggregateResult> aggrList=[select accountid ,count(id) totalcontacts from contact where accountid in:accIds group by accountid];
+            for(aggregateResult aggr:aggrList){
+                system.debug(aggr.get ('accountId'));
+                system.debug(aggr.get('totalcontacts'));
+                
+            }
+        }
+    //22 oct :q1 write a method that queries 10 account record ,create map of account id vs sum of amount opportunities associated to account
+    public void accSumofOpp(){
+        list<account> acclist=[select id,name from account  limit 10];
+        set<id> accids=new set<id>();
+        map<id,decimal> map1=new map<id,decimal>();
+        for(account acc:acclist){
+           accIds.add(acc.id);
+        }
+        for(aggregateResult aggr:[select accountid,sum(amount) totalAmount from opportunity where accountId in: accids group by accountId]){
+            id accid=(id)aggr.get('accountId');
+            decimal totalAmount=(decimal)aggr.get('totalAmount');
+            map1.put(accid,totalAmount);
+        }
+        
+        
+        
+    }
+    //q2: write a method that queries 10 account record ,create map of contactid vs no of cases associated to it 
+    public void conIdVsTotalCases(){
+        list<account> acclist=[select id,name from account  limit 10];
+         set<id> accids=new set<id>();
+         for(account acc:acclist){
+           accIds.add(acc.id);
+        }
+        map<id,integer> totalCasesMap=new map<id,integer>();
+        for(aggregateResult aggr:[select contactId,count(id) totalCases from case where accountid in: accids group by contactId]){
+            totalCasesMap.put((Id)aggr.get('contactId'),(Integer)aggr.get('totalCases'));
+        }
+        
+    }
+    
+    //q3: write a method that queries 10 account record ,create map of account id vs no of contact associated to it 
+    public void noOfntact(){
+       list<account> acclist=[select id,name from account  limit 10];  
+          set<id> accids=new set<id>();
+         for(account acc:acclist){
+           accIds.add(acc.id);
+        }
+        map<id,integer> totalCasesMap=new map<id,integer>();
+        for(aggregateResult aggr:[select accountId ,count(id) totalCons from contact where accountId in:accids group by accountId]){
+           totalCasesMap.put((id)aggr.get('accountid'),(integer)aggr.get('totalCons')); 
+        }
+        
+    }
+      //23/10/2026
+      //
+      // write a method that takes set of accountId as input and by aggregat query create map accountid vs max amount of opportunity assoiated with it
+    public void accIdASparameter(set<id> accIds){
+        map<id,decimal> mapIdVsMaxAmount=new  map<id,decimal>();
+        for(aggregateResult aggr:[select accountId,max(amount) maxAmount from opportunity where accountId in:accIds group by accountId]){
+            mapIdVsMaxAmount.put((id)aggr.get('accountId'),(decimal)aggr.get('maxAmount'));
+            
+        }
+        
+    }
+    
+    
+    //write down a method ,that queries 10 contact record ,create set of accountId from it ,use set to create a map of accountid
+    // vs minium opportunity amount
+    public void fetchMinAmount(){
+        list<contact> conlist=[select id ,name ,accountId from contact limit 10];
+        set<id> accids=new set<id>();
+        for(contact con:conlist){
+            accids.add(con.accountid);
+        }
+        map<id,decimal> idVsMinAmountMap=new map<id,decimal>();
+        list<aggregateResult> aggrlist=[select accountid,min(amount) minAmount from opportunity where accountId in:accids group by accountid ];
+        
+        for(aggregateResult aggr:aggrList){
+            id accid=(id)aggr.get('accountId');
+                decimal minAmount=(decimal)aggr.get('minAmount');
+           idVsMinAmountMap.put(accid,minAmount);
+        }
+    }
+        //q: write down a method that queires 10 opportunity record ,create mp accountid vs opportunity nam ,use the map functions and 
+        //aggregate query to create a map of accountId vs average average amount
+        public void complexAvgAmount(){
+            // queires 10 opportunity record 
+            list<opportunity> oppList=[select id,name,accountId from opportunity limit 10];
+            //create mp accountid vs opportunity name
+            map<id,string> accIdVsOppNameMap=new  map<id,string>();
+            for(opportunity opp:opplist){
+                accIdVsOppNameMap.put(opp.accountId,opp.name);
+                
+            }
+           // use the map functions and aggregate query to create a map of accountId vs average average amount
+           map<id,decimal> newMap=new map<id,decimal>();
+            list<aggregateResult> aggrList=[select accountId,avg(Amount) avgAmount from opportunity where accountId in:accIdVsOppNameMap.keySet() group by accountId];
+            
+            for(aggregateResult aggr:aggrList){
+              id accId=  (Id)aggr.get('accountId');
+               decimal avgAmount=(decimal) aggr.get('avgAmount');
+                newMap.put(accId,avgAmount);
+            }
+        }
+           // write down a method that queires 10 opportunity record ,create mp accountid vs opportnity  name ,use the map functions and 
+        //aggregate query to create a map of accountId vs coount of opportunity 
+            public void complexCountOpp (){
+                list<opportunity> opplist=[select id,accountId,name from opportunity limit 10];
+                map<id,string> mapAccidVsOppName=new  map<id,string>();
+                for(opportunity opp:oppList){
+                   mapAccidVsOppName.put(opp.accountid,opp.name);
+                     //  use the map functions and aggregate query to create a map of accountId vs coount of opportunity 
+                   
+                }
+                 map<id,integer> mapAccidVscountOfOpp=new  map<id,integer>();
+                 for(aggregateResult aggr:[select accountid,count(id) totalOpps from opportunity where accountid in:mapAccidVsOppName.keySet() group by  accountid]){
+                        mapAccidVscountOfOpp.put((id)aggr.get('accountid'),(integer)aggr.get('totalOpps'));
+                    }
+                
+            }
+            
+        // write down a method that queires 10 opportinty record ,create mp accountid vs opportunity nam ,use the map functions and 
+        //aggregate query to create a map of accountId vs average of annualRevenue       
+         public void complexAvgRevenue (){
+                list<opportunity> opplist=[select id,accountId,name from opportunity limit 10];
+                map<id,string> mapAccidVsOppName=new  map<id,string>();
+                for(opportunity opp:oppList){
+                   mapAccidVsOppName.put(opp.accountid,opp.name);
+                     //  use the map functions and aggregate query to create a map of accountId vs coount of opportunity 
+                   
+                }
+                 map<id,decimal> mapAccidVscountOfOpp=new  map<id,decimal>();
+                 for(aggregateResult aggr:[select accountid,avg(annualRevenue)totalAnnualRevenue from opportunity where accountid in:mapAccidVsOppName.keySet() group by  accountid]){
+                        mapAccidVscountOfOpp.put((id)aggr.get('accountid'),(integer)aggr.get('totalAnnualRevenue'));
+                    }
+                
+        
+        
+        
+    
+        
+        
+    
+    }

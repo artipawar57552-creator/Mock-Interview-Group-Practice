@@ -1,0 +1,325 @@
+3. Workflow
+What is Workflow Rule?
+2:What are the different actions available in Workflow?
+3:Explain Field Update, Email Alert, Task and Outbound Message.
+4. Outbound Message
+
+Sends Salesforce data to an external system using a SOAP-based outbound message.
+
+Example:
+
+Opportunity becomes Closed Won
+        ↓
+Workflow Rule
+        ↓
+Outbound Message
+        ↓
+External ERP system
+
+The outbound message can send selected Salesforce fields to an external endpoint.
+
+Interview line: “Outbound Message is used to send Salesforce record information to an external system through a SOAP-based message.”
+
+Quick way to remember
+Action	What does it do?
+Field Update	Changes a field
+Email Alert	Sends an email
+Task	Creates a follow-up task
+Outbound Message	Sends data to an external system
+
+
+5:What is the difference between Evaluation Criteria:
+created
+created and every time edited
+created and edited to meet criteria?
+
+1. CREATED
+
+The rule is evaluated only when the record is created.
+
+Example criteria:
+
+Lead.Status = 'New'
+
+If the Lead is created with Status = New → Workflow runs.
+
+If you later edit the Lead → it does not run again.
+
+2. Created and every time it's edited
+
+The rule is evaluated:
+
+When the record is created
+Every time the record is edited
+
+provided the criteria are true.
+
+Example:
+
+Account.Rating = 'Hot'
+
+Account is created as Hot → ✅ runs.
+
+Later you change Phone → Rating is still Hot → ✅ runs again.
+
+Later you change Industry → Rating is still Hot → ✅ runs again.
+
+3. Created and edited to meet criteria
+
+This is the one interviewers usually test.
+
+The Workflow runs when the record changes from NOT meeting the criteria → meeting the criteria.
+
+Example:
+
+Opportunity.StageName = 'Closed Won'
+
+Timeline:
+
+Created as Prospecting
+        ↓
+No workflow
+
+Changed to Proposal
+        ↓
+No workflow
+
+Changed to Closed Won
+        ↓
+✅ Workflow runs
+
+Amount changed
+while still Closed Won
+        ↓
+❌ Doesn't run again
+
+-----------------------------------------------------------------------------------------------
+6:Can Workflow Rule perform an insert or delete operation?
+
+No, a Workflow Rule cannot directly perform **insert or delete operations**.
+
+Workflow Rules support four main actions:
+
+* **Field Update** – updates a field
+* **Email Alert** – sends an email
+* **Task** – creates a task
+* **Outbound Message** – sends data to an external system
+
+If I need to **create or delete records**, I would use **Flow or Apex**, depending on the complexity of the requirement.
+
+**Interview answer:**
+“No, Workflow Rules cannot directly insert or delete records. For record creation or deletion, I would use Flow or Apex.”
+
+------------------------------------------------------------------------------------------------
+7:Can Workflow update a field on a related parent record?
+
+-->No. A Workflow Rule cannot directly update a field on a related parent object such as Account when the Workflow is running on Contact.
+
+For example, if the Workflow is on Contact and I want to update a field on the related Account, Workflow doesn't provide that option in the Field Update action.
+
+For this requirement, I would use a **Record-Triggered Flow** on Contact and update the related Account record.
+
+**Example:** If Contact Name = 'Art', the Flow can update a field on the Contact's related Account.
+
+
+------------------------------------------------------------------------------------------------
+Can Workflow send an email to an external user?
+--->Yes, Workflow can send an email to an external user.
+
+We can use a **Workflow Rule + Email Alert** and configure the external user's email address as a recipient, depending on the available recipient options and Salesforce configuration.
+
+For example, if a Case is created, a Workflow can trigger an Email Alert and notify an external contact or email address.
+
+**Interview answer:**
+“Yes, Workflow can send emails to external users through an Email Alert, as long as the external recipient can be configured and Salesforce email settings allow it.”
+
+
+------------------------------------------------------------------------------------------------
+What happens if multiple Workflow Rules meet their criteria?
+-->
+If multiple Workflow Rules meet their criteria for the same record, Salesforce can execute the actions of all the applicable Workflow Rules.
+
+For example, if one Workflow sends an email when an Opportunity Amount is greater than ₹10 lakh and another Workflow updates a field when the Opportunity is Closed Won, and both conditions are satisfied, both Workflow Rules can execute.
+
+If multiple rules try to update the same field, we need to be careful about the automation execution order and the final value.
+
+
+------------------------------------------------------------------------------------------------
+What is Workflow Field Update?
+--->
+A Workflow Field Update is an action that automatically updates a field value when the Workflow Rule criteria are satisfied.
+
+For example, if an Opportunity becomes Closed Won, a Workflow Field Update can automatically set a custom field like Deal Status to "Completed".
+
+The Field Update is primarily used to update fields on the record where the Workflow Rule is running. For more complex updates, especially updates to related records, I would use Flow.
+
+
+------------------------------------------------------------------------------------------------
+Can Workflow update a field on another object?
+
+--->No, standard workflow rules (like in Salesforce) cannot directly update a field on a separate, related object; they are restricted to updating fields on the same
+ record that triggered the rule
+
+------------------------------------------------------------------------------------------------
+What are the limitations of Workflow?
+-->The main limitations of Workflow Rules are:
+
+1. **Limited actions** – Workflow supports mainly Field Update, Email Alert, Task, and Outbound Message.
+
+2. **Cannot directly create or delete arbitrary records** – For record creation or deletion, I would use Flow or Apex.
+
+3. **Limited related-record updates** – Cross-object updates have restrictions and are not suitable for complex related-record automation.
+
+4. **No complex decision logic** – Workflow doesn't support advanced branching, loops, or complex calculations like Flow.
+
+5. **Limited debugging and error handling** – Flow provides much better debugging and fault-handling capabilities.
+
+6. **Cannot handle complex automation requirements** – If the requirement involves multiple objects, multiple conditions, record creation, or complex processing, Flow or Apex is more appropriate.
+
+7. **Legacy feature** – Salesforce has moved toward **Flow** as the primary automation tool, so I would use Flow for new automation requirements.
+
+**Interview answer:**
+“Workflow has limited actions and limited logic. It cannot handle complex record creation, deletion, branching, looping, or sophisticated multi-object automation. Since Workflow is a legacy automation tool, I would generally use Flow for new requirements.”
+
+------------------------------------------------------------------------------------------------
+What would you use today instead of Workflow for new automation?
+-->FLOW
+
+
+------------------------------------------------------------------------------------------------
+Difference between Workflow and Flow?
+-->
+The key difference is: Workflow is a simple legacy automation tool, while Flow is Salesforce's modern and much more powerful automation tool.
+
+Feature	                 Workflow Rule	     Flow
+Automation complexity	Simple	            Simple to highly complex
+Field Update            	✅             	✅
+Email	                    ✅              ✅
+Create records	            ❌              ✅
+Update records	          Limited	        ✅
+Delete records            	❌	            ✅
+Decision/Branching         ❌	        ✅
+Loops	                ❌           	✅
+Multiple objects         	Limited	      ✅
+Get/query records        	❌	          ✅
+Call Apex	               ❌        	✅
+Debugging                	Limited    	        Better
+Current Salesforce recommendation -- LegaCY	 Preferred
+
+
+------------------------------------------------------------------------------------------------
+Suppose whenever an Opportunity becomes Closed Won, you need to update a field on Account. How would you implement it?
+
+How I would implement it
+Opportunity updated
+        ↓
+Is Stage = Closed Won?
+        ↓ Yes
+Get related Account
+        ↓
+Update Account field
+
+Flow configuration:
+
+Object: Opportunity
+Trigger: When a record is updated
+Condition: StageName = 'Closed Won'
+Optimize for: Actions and Related Records
+Use Opportunity.AccountId to identify the Account.
+Add Update Records to update the required Account field.
+Important interview point
+
+If the requirement is only to update the Opportunity's own field, Workflow could handle it.
+
+But here we need to update the related Account, so Record-Triggered Flow is the better modern solution.
+
+I would implement this using a Record-Triggered Flow on the Opportunity object.
+
+The Flow would trigger when an Opportunity is updated and the Stage changes to Closed Won. I would then use the Opportunity's AccountId to identify the related Account and use an Update Records element to update the required Account field.
+
+For a new implementation, I would prefer Flow rather than Workflow because Flow provides better support for updating related records and handling more complex business logic.
+
+
+------------------------------------------------------------------------------------------------
+Suppose whenever a Case is created with Priority = High, the Case Owner should receive an email. How would you implement it?
+-->
+Implementation
+Case Created
+    ↓
+Priority = High?
+    ↓ Yes
+Send Email
+    ↓
+Case Owner
+
+Flow configuration:
+
+Object: Case
+Trigger: When a record is created
+Condition: Priority = 'High'
+Add a Send Email action.
+Set the recipient as the Case Owner.
+Activate the Flow.
+
+
+------------------------------------------------------------------------------------------------
+SOSL"
+SOSL Syntax
+
+The basic SOSL syntax is:
+
+FIND {searchTerm}
+IN [scope]
+RETURNING
+    Object1(field1, field2),
+    Object2(field1, field2)
+	
+	
+Example:
+
+FIND {arti}
+IN ALL FIELDS
+RETURNING
+    Account(Name, Industry),
+    Contact(FirstName, LastName, Email),
+    Lead(Company, Status)
+	
+Main parts:
+FIND {arti} → search term. Must be inside {}.
+IN ALL FIELDS → search across all searchable fields.
+RETURNING → specifies which objects and fields to return.
+
+
+------------SOQL VS SOSL-----------------------------------\
+Suppose I want Contacts whose Email is from Gmail:
+
+SELECT Id, FirstName, LastName, Email
+FROM Contact
+WHERE Email LIKE '%@gmail.com'
+
+I'm specifically querying the Contact object.
+
+SOSL Example
+
+Suppose I want to search for "Arti" across Accounts, Contacts, and Leads:
+
+FIND {Arti}
+IN ALL FIELDS
+RETURNING
+    Account(Id, Name),
+    Contact(Id, Name, Email),
+    Lead(Id, Name, Company)
+
+Here I'm searching for the same term across multiple objects.
+
+Interview answer:
+SOQL is used to query specific records from an object and supports filtering, sorting, aggregation, and relationship queries.
+
+SOSL is used for text-based searching across multiple objects and multiple searchable fields.
+
+For example, if I need all Contacts where Email contains Gmail, I would use SOQL. If I need to search for the term "Arti" across Accounts, Contacts, and Leads, I would use SOSL.
+
+So, **SOQL is mainly for structured data queries, while SOSL is mainly for text searches across multiple objects.**
+
+
+“If I know which object and fields I need, I use SOQL. If I need to search for a text value across multiple objects, I use SOSL.”

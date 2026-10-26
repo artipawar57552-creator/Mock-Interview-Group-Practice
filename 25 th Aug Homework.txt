@@ -1,0 +1,173 @@
+Homework*
+
+
+1. Write a SOQL query to retrieve all Case records where the Subject contains the word 'Error'.
+
+      SELECT Id, Subject FROM CASE WHERE Subject LIKE '%Error%'
+
+
+2. Write a SOQL query to retrieve all Case records with a Status of 'New' or 'Working'.
+
+    SELECT Id, Subject,Status FROM CASE WHERE Status='New' OR Status='Working'
+
+3. Write a method to insert 200 new Account records in a single DML statement.
+
+      list<Account> accList=new list<Account>();
+
+      for(integer i=1; i<=200;i++){
+    
+      Account acc=new Account();
+      acc.Name='Test Account'+i;
+      accList.add(acc);
+ }
+    insert accList;
+    system.debug(accList);
+
+
+
+4. Write a SOQL query to retrieve all Case records that were created in the last 30 days.
+
+
+SELECT Id, Subject, Status, CreatedDate FROM CASE WHERE CreatedDate= last_n_days:30
+
+
+
+5. Write a SOQL query to count the total number of Case records.
+
+SELECT count() FROM CASE 
+
+
+
+6. Write a SOQL query to retrieve the Name, Industry, and AnnualRevenue of all Account records where AnnualRevenue is greater than 1,000,000.
+
+
+SELECT Id, Active__c, Name, Industry, AnnualRevenue FROM Account WHERE AnnualRevenue > 1000000
+
+
+7. Write a SOQL query to retrieve all Opportunity records and the Name of their Account.
+
+SELECT stageName, Name, Account.Name FROM Opportunity 
+// This is Child to Parent query
+
+8. Write a SOQL query to get the Name of all Opportunity records with a StageName of 'Closed Won'.
+
+
+SELECT Name FROM Opportunity WHERE StageName='Closed Won'
+
+
+-----------------------------------------------------------------------------------------------------------
+
+Create 10 contacts using loop with lastname as lastname1,lastname2,lastname3 ...... lastname10
+
+
+list<Contact> conListToInsert = new list<Contact>(); 
+
+for(integer i=1; i<=10; i++){
+   Contact con=new Contact();
+   con.lastname='Lastname' + i;
+   conListToInsert.add(con);
+}
+   insert conListToInsert;
+
+---------------------------------------------------------------------------------
+
+
+Query all the opportunities, if the stage is closed won print the amount 
+
+
+list<Opportunity> opplist = [SELECT Name ,stageName, Amount FROM Opportunity];
+
+for(Opportunity opp:opplist){
+ if(opp.stageName == 'closed won'){
+system.debug('Amount-->' +  opp.Amount);
+}
+}
+
+-----------------------------------------------------------------------------------------------------------
+Query all the address which have client
+Print city state if address is of Maharashtra
+Print state if not
+
+   
+for(Client_Address__c cl :[SELECT Id, City__c, State__c, Client__c FROM
+                           Client_Address__c WHERE Client__c != null]){
+                               if(cl.State__c == 'MH'){
+                               system.debug('city=>' +cl.City__c + '  '+ 'State=>' +cl.State__c);       
+                               } else   
+                                 system.debug( 'State=>' +cl.State__c);     
+                           }
+ 
+
+
+
+------------------------------------------------------------------------------------------------------------
+Task
+Query all the opportunities
+Loop over them and print the status of all
+
+
+
+list<Opportunity> opplist = [SELECT Name ,stageName FROM Opportunity];
+
+for(Opportunity opp:opplist){
+system.debug('Name-->' + opp.Name +'  ' + 'stage-->' + opp.stageName);
+}
+
+-----------------------------------------------------------------
+Query all the address which have pincode 
+Loop over them and print their state,city
+
+list<Address> addList =[SELECT Id, Name, City, State, PostalCode FROM Address WHERE PostalCode != null];
+
+for(Address add : addList){
+    
+   system.debug('State=>' +add.State);
+    system.debug('City=>' +add.City);
+}
+
+//error illegal assignment address 
+
+
+--------------------------------------------------------------------
+Query all the accounts
+Loop over them print account number if account is active
+print phone if it's not active
+
+
+for(Account acc:[SELECT Id, Name ,Active__c ,AccountNumber ,Phone FROM Account]){
+if(acc.Active__c == 'Yes'){
+system.debug('Account Number=>' +acc.AccountNumber);
+}else
+system.debug('phone=>' +acc.Phone);
+}
+
+
+----------------------------------------------------------------------------------------------------------------
+Tasks-1
+Create a record of task and assign it to your user
+
+To get user info setup quick find users will give info of all users
+
+Task t=new Task();
+t.OwnerId = UserInfo.getUserId();    //To get current login user id 
+t.Subject='Assign this task to User';  
+insert t;   
+system.debug('Task created' +UserInfo.getUserId() +'Task Id'+t.Id );      
+//WhoId = WHO is involved? 👤
+//WhatId = WHAT is it related to? 📄
+
+Task-2
+Create a list of integer(list1)
+Create a list of integer(list2)
+
+Add all elements of list2 to list1
+
+list<integer> intList1=new list<integer>{1,3,5,7,9};
+
+list<integer> intList2=new list<integer>{2,4,6,8,10};
+ 
+intList1.addAll(intList2);
+
+System.debug(intList1);
+---------------------------------------------------------------------------------------
+
