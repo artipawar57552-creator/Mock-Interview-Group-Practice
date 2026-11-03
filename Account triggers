@@ -1,0 +1,32 @@
+trigger AccountTriggersf07 on Account (before insert) {
+    
+    //1.write trigger on account ,if the annual revenue of inserted account is less than 500 give error   ---------executed 
+
+    system.debug(trigger.new);
+    
+    for(Account acc:trigger.new){          //trigger.new -->list<sobject>
+        if(acc.annualRevenue<500){
+            acc.addError('Annual Revenue cannot be less than 500');
+             acc.AnnualRevenue=500;
+        }
+        
+    }
+    
+    
+    //2.write trigger on account , if amount is between 0-100 then make rating as normal,if amount>500 make rating good and if amount>1000 make rating as excellecnt
+    
+    system.debug(trigger.new);   //newly inserted account records            ---------executed
+    
+    for(Account acc:trigger.new){                  //0-100 Normal, 100-500 good , 500-1000 Excellent 
+        if(acc.AnnualRevenue>=0 && acc.AnnualRevenue<=100){
+            acc.rating='Normal';
+        }else if(acc.AnnualRevenue>1000){
+            acc.rating='Excellent';
+        }else if(acc.AnnualRevenue>=500 && acc.AnnualRevenue<=1000){
+            acc.rating='Good';
+        }else{
+            acc.Rating='None';
+        }
+    }
+    
+}
