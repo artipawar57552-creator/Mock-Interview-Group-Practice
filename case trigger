@@ -1,0 +1,33 @@
+trigger caseTrigger on Case (before insert) {      
+    
+ //1.write down trigger that ensures that account has only two open cases         ---------executed
+    
+      Set<Id> accIds = new Set<Id>();
+
+    for(Case cs : Trigger.new) {
+        if(cs.AccountId != null) {
+            accIds.add(cs.AccountId);
+        }
+    }
+
+    Map<Id, Integer> accMap = new Map<Id, Integer>();
+
+    List<Account> accList = [
+        SELECT Id, Name,
+            (SELECT Id FROM Cases WHERE status='New')
+        FROM Account
+        WHERE Id IN :accIds
+    ];
+
+    for(Account acc : accList) {
+        accMap.put(acc.Id, acc.Cases.size());
+    }
+
+    for(Case cs : Trigger.new) {
+
+            if((accMap.get(cs.AccountId)) >= 2) {
+                
+                cs.addError('Only 2 Open Cases are allowed per Account.');
+            }
+        }
+    }
