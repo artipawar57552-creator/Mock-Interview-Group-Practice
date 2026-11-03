@@ -1,0 +1,137 @@
+trigger ContactTriggersf07 on Contact (before insert) {
+    
+   /*//1.write trigger on contact ,if phone field is null ,then give error                ---------executed
+    
+    system.debug(trigger.new);   //list<contact> newly inserted 
+    
+    for(Contact con:trigger.new){
+        
+        if(con.Phone==null ){  //if phone or email is entered then save the record
+            con.addError('Phone field cannot be null');    //con.addError --> adding error to contact record
+        }
+    }*/
+    
+    
+    
+   /* //2.write down trigger on contact ,contact is not associated with any account, associate it with default account            ---------executed
+    
+    //trigger ContactTriggersf07 on Contact (before insert) {
+
+    Account acc = [
+        SELECT Id, Name
+        FROM Account
+        WHERE Name = 'Default Account'
+        LIMIT 1
+    ];
+
+    for (Contact con : Trigger.new) {
+        if (con.AccountId == null) {
+            con.AccountId = acc.Id;
+        }
+    }*/
+   
+    
+    /*//3.write down trigger that ensure that there should be 1 contact per account            ---------executed
+    
+   // trigger ContactTriggersf07 on contact(before insert) {
+
+    Set<Id> accids = new Set<Id>();
+
+    for(Contact cc : Trigger.new) {
+        if(cc.AccountId != null) {
+            accids.add(cc.AccountId);
+        }
+    }
+
+    Map<Id, Integer> accmap = new Map<Id, Integer>();
+
+    List<Account> acclist = [SELECT Id, Name,(SELECT Id, Name FROM Contacts)FROM Account WHERE Id IN :accids];
+
+    for(Account acc : acclist) {
+        accmap.put(acc.Id, acc.Contacts.size());
+    }
+
+    for(Contact cc : Trigger.new) {
+
+
+            if(accmap.get(cc.AccountId) >= 1) {
+                cc.addError('Already one Contact exists for this Account.');
+            }            
+        }*/
+    
+    
+    
+    /*//3-11 4=> write down trigger on account has only one primary contact to it             ---------executed
+    //trigger ContactTriggersf07 on Contact (before insert) {
+
+    Set<Id> accIds1 = new Set<Id>();
+
+    for(Contact con : Trigger.new) {
+        if(con.Is_Primary__c == true) {
+            accIds1.add(con.AccountId);
+        }
+    }
+
+    Map<Id, Integer> accMap1 = new Map<Id, Integer>();
+
+    List<Account> accList1 = [
+        SELECT Id, Name,
+            (SELECT Id FROM Contacts
+             WHERE Is_Primary__c = true)
+        FROM Account
+        WHERE Id IN :accIds1
+    ];
+
+    for(Account acc : accList1) {
+        accMap1.put(acc.Id, acc.Contacts.size());
+    }
+
+    for(Contact con : Trigger.new) {
+
+        if(accMap1.get(con.AccountId)>1) {
+                con.addError('Only one Primary Contact is allowed per Account.');
+            }
+        }*/
+
+
+    
+     //5=>write down a trigger that ensures that account cannot have more than 2 contacts, do this by using aggregate query
+    
+    //trigger ContactTriggersf07 on Contact (before insert) {       //sometimes working but sometime accept more than 2 contacts
+
+    Set<Id> accIds2 = new Set<Id>();
+
+    for(Contact con : Trigger.new) {
+        if(con.AccountId != null) {
+            accIds2.add(con.AccountId);
+        }
+    }
+
+    Map<Id, Integer> accMap2 = new Map<Id, Integer>();
+
+    
+List<AggregateResult> aggList = [
+        SELECT AccountId, COUNT(Id) totalCount
+        FROM Contact
+        WHERE AccountId IN :accIds2
+        GROUP BY AccountId
+    ];
+    for(AggregateResult agg : aggList) {
+
+        Id accId = (Id)agg.get('AccountId');
+
+        Integer total = (Integer)agg.get('totalCount');
+
+        accMap2.put(accId, total);
+    }
+
+    for(Contact con : Trigger.new) {
+
+    if(accMap2.get(con.AccountId)>2){
+
+    con.addError('An Account cannot have more than 2 Contacts.');
+        
+            }
+            
+        } 
+    }
